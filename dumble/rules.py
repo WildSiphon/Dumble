@@ -17,7 +17,7 @@ class Rules:
 
     def __init__(self, min_num: int = 2, max_num: int = 10):
         self.numerals = range(min_num, max_num + 1)
-        self.courts = ["Jack", "Queen", "King", "Ace"]
+        self.courts = ("Jack", "Queen", "King", "Ace")
         self.suits = {
             ("clubs", Colors.BLACK),
             ("spades", Colors.BLACK),

@@ -1,93 +1,62 @@
-from Game import Game
-from Pack import Deck
+import argparse
+import logging
 
-
-# Fonction utilitaire pour les exercices 1, 2 & 3
-def create_deck():
-    print("\nCreating a new deck...\n")
-
-    # Génère un nouveau paquet de cartes trié
-    deck = Deck()
-
-    # Affiche la représentation du paquet
-    print(deck)
-
-    return deck
+from dumble.game import Game
+from dumble.logging import LOGGING_LEVEL_LIST
+from dumble.logging.configuration import ConfigureLogger
 
 
 def exercice_1():
     """
-    Exercice 1: Mélanger un paquet de cartes
+    Exercice 1: Compter le nombre de points en main
     """
-    deck = create_deck()
-    print("Shuffling the deck...\n")
+    print("\n-=== Exercice 1: Count current players points ===-")
 
-    # Mélange le paquet <Pack/__init__.py ligne 42>
-    deck.shuffle()  # <-- TODO implement this method
+    # Démarre une partie
+    game = Game(nb_players=2)
+    game.start()
 
-    # Affiche la représentation du paquet mélangé
-    print(deck)
+    # Affiche les cartes en main de chaque joueur et leur nombre de points
+    game.print_players_hands()
+    # Calculer le nombre de points <dumble/game/game.py ligne 31>
 
 
 def exercice_2():
     """
-    Exercice 2: Couper un paquet de cartes
+    Exercice 2: Trier les cartes de chaque joueur
     """
-    deck = create_deck()
-    print("Cutting the deck...\n")
-
-    # Coupe le paquet <Pack/__init__.py ligne 49>
-    deck.cut()  # <-- TODO implement this method
-
-    # Affiche la représentation du nouveau paquet
-    print(deck)
-
-
-def exercice_3():
-    """
-    Exercice 3: Piocher une carte dans un paquet
-    """
-    deck = create_deck()
-    print("Drawing a card...")
-
-    # Pioche une carte <Pack/__init__.py ligne 56>
-    card = deck.draw()  # <-- TODO implement this method
-    print(f'Drawed card is "{card.name}"\n')
-
-    # Vérifie si la carte piochée est toujours dans la paquet
-    print(f'Is "{card.name}" still in deck ?')
-    print(f"> {card.name in [card.name for card in deck.cards]}")
-
-
-def exercice_4():
-    """
-    Exercice 4: Distribuer cinq cartes à chaque joueur
-    """
-    print("Game 1: Two players")
-    # Only two players
-    game = Game(nb_players=2)
+    print("\n-=== Exercice 2: Sort players hand ===-")
+    game = Game(nb_players=3)
     game.start()
-    game.print_players_hands()
 
-    print("\nGame 2: Five players")
-    # What about 5 players ?
-    game = Game(nb_players=5)
-    game.start()
+    # Affiche les cartes en main de chaque joueur et leur nombre de points
     game.print_players_hands()
+    # Trier les cartes <dumble/game/game.py ligne 27>
 
 
 def main():
     """
     EXERCICES:
-    1. Mélanger les cartes
-    2. Couper les cartes
-    3. Distribuer les cartes
+    1. Compter le nombre de points en main
+    2. Trier les cartes de chaque joueur
     """
     exercice_1()
     exercice_2()
-    exercice_3()
-    exercice_4()
 
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Play Dumble or simulate games.")
+    parser.add_argument(
+        "--log",
+        type=str.upper,
+        help='choose logging level (default is "INFO")',
+        choices=LOGGING_LEVEL_LIST,
+        default="INFO",
+    )
+    args = parser.parse_args()
+
+    # Create logger at the correct level
+    ConfigureLogger(console_level=args.log)
+    logger = logging.getLogger("dumblog")
+
     main()
