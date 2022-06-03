@@ -10,7 +10,7 @@ class Player:
         self.cards = []
 
     def get_player_hand(self):
-        return " - ".join(self.cards)
+        return " - ".join(map(lambda x: getattr(x, "name"), self.cards))
 
 
 class Game:
@@ -30,19 +30,19 @@ class Game:
         Start the game by initializing the deck and the player's hands.
         """
         self.deck.generate()
-        self.deck.shuffle()  # This method was implemented during Exercice 1
-        self.deck.cut()  # This method was implemented during Exercice 2
-        self.deal()  # You need to implement this method for Exercice 4
+        self.deck.shuffle()
+        self.deck.cut()
+        self.deal()
 
     # Exercice 4
     def deal(self):  # <-- TODO Implement this method
         """
         Deal 5 cards to each player.
         """
-        pass
+        for _ in range(5):
+            for player in self.players:
+                player.cards.append(self.deck.draw())
 
     def print_players_hands(self):
         for player in self.players:
-            print(
-                f"Player {self.players.index(player)}: " f"[{player.get_player_hand()}]"
-            )
+            print(f"Player {self.players.index(player)}: [{player.get_player_hand()}]")

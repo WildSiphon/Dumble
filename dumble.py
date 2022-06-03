@@ -83,9 +83,9 @@ def main():
     2. Couper les cartes
     3. Distribuer les cartes
     """
-    # exercice_1()
-    # exercice_2()
-    # exercice_3()
+    exercice_1()
+    exercice_2()
+    exercice_3()
     exercice_4()
 
 

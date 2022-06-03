@@ -1,3 +1,5 @@
+from random import randint, shuffle
+
 from Rules import Colors, Rules
 
 
@@ -41,25 +43,39 @@ class Deck:
                 self.cards.append(Card(rank, suit[0], suit[1]))
 
     # Exercice 1
-    def shuffle(self):  # <-- TODO Implement this method
+    def shuffle(self):
         """
         Shuffle the deck.
         """
-        pass
+        shuffle(self.cards)
 
     # Exercice 2
-    def cut(self):  # <-- TODO Implement this method
+    def cut(self, cut_id: int = None):
         """
         Cut the deck.
         """
-        pass
+        deck_range = (0, self.size)
+
+        # TODO log this
+        if (cut_id is None) or (cut_id not in range(*deck_range)):
+            cut_id = randint(*deck_range)
+
+        self.cards = self.cards[cut_id:] + self.cards[:cut_id]
 
     # Exercice 3
-    def draw(self) -> Card:  # <-- TODO Implement this method
+    def draw(self) -> Card:
         """
         Draw a card.
         """
-        return Card("Ace", "spades", Colors.BLACK)
+        # The card on top of the deck is the last one
+        return self.cards.pop()
+
+    @property
+    def size(self) -> int:
+        return len(self.cards)
+
+    def __len__(self) -> int:
+        return self.size
 
     def __repr__(self):
         """
